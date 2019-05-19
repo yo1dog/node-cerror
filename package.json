@@ -1,0 +1,25 @@
+{
+  "name": "@yo1dog/cerror",
+  "version": "1.0.0",
+  "description": "Chainable Errors",
+  "main": "lib/CError.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yo1dog/node-cerror.git"
+  },
+  "author": "Mike \"yo1dog\" Moore",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yo1dog/node-cerror/issues"
+  },
+  "homepage": "https://github.com/yo1dog/node-cerror#readme",
+  "dependencies": {
+    "@yo1dog/extendable-error": "^1.0.0"
+  }
+}
