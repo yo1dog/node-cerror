@@ -8,7 +8,7 @@ declare class CError extends Error {
   public static chain(...errs: Error[]): Error;
   
   /** @deprecated Use CError.chain() */
-  public static link: typeof CError.chain;
+  public static link(...errs: Error[]): Error;
   
   /**
    * Creates an error with a cause.

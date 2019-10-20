@@ -1,6 +1,6 @@
 {
   "name": "@yo1dog/cerror",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Chainable Errors",
   "main": "lib/CError.js",
   "types": "lib/CError.d.ts",
