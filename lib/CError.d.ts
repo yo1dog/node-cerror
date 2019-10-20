@@ -5,7 +5,10 @@ declare class CError extends Error {
    * 
    * Returns the last error.
    */
-  public static link(...errs: Error[]): Error;
+  public static chain(...errs: Error[]): Error;
+  
+  /** @deprecated Use CError.chain() */
+  public static link: typeof CError.chain;
   
   /**
    * Creates an error with a cause.

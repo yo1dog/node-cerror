@@ -33,7 +33,7 @@ Error: system failure
 ```javascript
 // chain custom/any error classes
 console.log(
-  CError.link(sysErr, new MyError('Unable to do thing B.'));
+  CError.chain(sysErr, new MyError('Unable to do thing B.'));
 )
 
 /*
@@ -89,7 +89,7 @@ CError.chain(cause, new Error(message))
 
 -----
 
-## `CError.link(...errs)`
+## `CError.chain(...errs)`
 
  param | type    | description
 -------|---------|-------------
