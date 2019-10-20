@@ -1,6 +1,6 @@
 {
   "name": "@yo1dog/cerror",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainable Errors",
   "main": "lib/CError.js",
   "types": "lib/CError.d.ts",
@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/yo1dog/node-cerror#readme",
   "dependencies": {
-    "@yo1dog/extendable-error": "^1.0.0"
+    "@yo1dog/extendable-error": "^1.0.2"
   }
 }
