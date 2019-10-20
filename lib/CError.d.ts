@@ -12,7 +12,7 @@ declare class CError extends Error {
    * 
    * Equivalent to `CError.chain(cause, new Error(message))`
    */
-  public constructor(cause: Error, message: string);
+  public constructor(cause: Error, message?: string);
   
   /**
    * Returns the cause of the given error (the next error in the chain).
