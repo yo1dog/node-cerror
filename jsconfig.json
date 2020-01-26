@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "module": "esnext",
     "target": "esnext",
-    "lib": ["es2020"]
+    "lib": ["es2017"]
   },
   "exclude": [
     "node_modules"
