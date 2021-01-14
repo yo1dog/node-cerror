@@ -15,6 +15,8 @@ export class CError<T = unknown> extends Error implements IChained {
    */
   public constructor(cause: T, message: string) {
     super(message);
+    Object.defineProperty(this, 'name', {enumerable: false, value: this.constructor.name});
+    
     CError.chain(cause, this);
   }
   
