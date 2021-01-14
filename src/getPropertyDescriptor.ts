@@ -1,9 +1,4 @@
-/**
- * @param {object} target
- * @param {PropertyKey} propertyKey
- * @returns {PropertyDescriptor | undefined}
- */
-module.exports = function getPropertyDescriptor(target, propertyKey) {
+export function getPropertyDescriptor(target: object, propertyKey: PropertyKey) {
   let curTarget = target;
   do {
     const desc = Reflect.getOwnPropertyDescriptor(curTarget, propertyKey);
@@ -14,4 +9,4 @@ module.exports = function getPropertyDescriptor(target, propertyKey) {
     curTarget = Reflect.getPrototypeOf(curTarget);
   }
   while (curTarget);
-};
+}

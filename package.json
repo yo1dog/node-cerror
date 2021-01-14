@@ -2,14 +2,18 @@
   "name": "@yo1dog/cerror",
   "version": "1.1.1",
   "description": "Chainable Errors",
-  "main": "lib/CError.js",
-  "types": "lib/CError.d.ts",
-  "directories": {
-    "lib": "lib"
+  "type": "commonjs",
+  "main": "dist/cerror.js",
+  "types": "dist/cerror.d.ts",
+  "engines": {
+    "node": ">=12.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx tsc -p jsconfig.json && npx eslint ."
+    "lint": "npx tsc -p . --noEmit && npx eslint . --ext .js,.jsx,.ts,.tsx",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepack": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -21,10 +25,11 @@
     "url": "https://github.com/yo1dog/node-cerror/issues"
   },
   "homepage": "https://github.com/yo1dog/node-cerror#readme",
-  "dependencies": {
-    "@yo1dog/extendable-error": "^1.0.4"
-  },
   "devDependencies": {
-    "@types/node": "^13.5.0"
+    "@types/node": "^14.14.20",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "eslint": "^7.17.0",
+    "typescript": "^4.1.3"
   }
 }
