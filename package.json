@@ -1,6 +1,6 @@
 {
   "name": "@yo1dog/cerror",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Chainable Errors",
   "type": "commonjs",
   "main": "dist/cerror.js",
