@@ -5,7 +5,6 @@ import {getPropertyDescriptor} from './getPropertyDescriptor';
 export const causeSymbol = Symbol('cause');
 export const origStackSymbol = Symbol('origStack');
 
-export default CError;
 export class CError<T = unknown> extends Error implements IChained {
   readonly [causeSymbol]: T;
   
@@ -264,3 +263,5 @@ export type TChain<C,R> = R & IChained<C>;
 export interface IChained<C = unknown> {
   readonly [causeSymbol]: C;
 }
+
+export default CError;
