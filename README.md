@@ -2,6 +2,10 @@
 
 Chainable Errors
 
+```
+npm install @yo1dog/cerror
+```
+
 ## Quick Start
 
 ```javascript
@@ -89,14 +93,26 @@ CError.chain(cause, new Error(message))
 
 -----
 
+## `CError.prototype.getCause()`
+
+Returns the cause of the given error (the next error in the chain).
+
+Equivalent to:
+```javascript
+this[CError.causeSymbol]
+CError.getCause(this)
+```
+
+-----
+
 ## `CError.chain(...errs)`
 
  param | type    | description
 -------|---------|-------------
 `errs` | Error[] | Errors to chain together.
 
-Chains together errors such that the first error is the root cause
-and the last error is the result.
+Chains together errors such that the first error is the root cause and the last error is the
+result.
 
 Returns the last error.
 
@@ -118,6 +134,24 @@ CError.getChain(err)[1]
 
 -----
 
+## `CError.getRootError(err)`
+
+ param | type  | description
+-------|-------|-------------
+`err`  | Error | Start of error chain to traverse.
+
+Returns the root error of the given error's chain.
+
+*Note:* If the given error does not have a cause, the given
+error is the root and is returned.
+
+Equivalent to
+```javascript
+CError.getChain(err).pop()
+```
+
+-----
+
 ## `CError.getChain(err)`
 
  param | type  | description
@@ -127,6 +161,11 @@ CError.getChain(err)[1]
 Returns the given error's chain of errors as an array.
 
 *Note:* the chain contains the given error at index 0.
+
+Equivalent to
+```javascript
+Array.from(CError.getChainIterator(err, true))
+```
 
 -----
 
@@ -190,14 +229,24 @@ CError.getChain(err)[depth]
 
 -----
 
-## `CError.getChainIterator`
+## `CError.getChainIterator(err, [checkCircular])`
 
  param          | type    | description
 ----------------|---------|-------------
 `err`           | Error   | Start of error chain to traverse.
-`checkCircular` | boolean | If an error should be thrown on circular references (true) or not (false).
+`checkCircular` | boolean | If an error should be thrown on circular references (true) or not (false). Defaults to false.
 
 Returns an interator that traverses the given error's chain.
+
+-----
+
+## `CError.isChainable(val)`
+
+ param | type  | description
+-------|-------|-------------
+`val`  | any   | Value to check.
+
+Returns if the given value can store a cause and be at the end or middle of a chain.
 
 -----
 

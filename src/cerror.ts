@@ -22,7 +22,7 @@ export class CError<T = unknown> extends Error implements IChained {
   /**
    * Returns the cause of the given error (the next error in the chain).
    * 
-   * Equivalent to `this[causeSymbol]` or `CError.getCause(this)`
+   * Equivalent to `this[CError.causeSymbol]` or `CError.getCause(this)`
    */
   public getCause() {
     return this[causeSymbol];
