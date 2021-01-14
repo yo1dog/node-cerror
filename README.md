@@ -9,8 +9,8 @@ npm install @yo1dog/cerror
 ## Quick Start
 
 ```javascript
-const CError = require('@yo1dog/cerror');
-const MyError = require('MyError');
+const {CError} = require('@yo1dog/cerror');
+const {MyError} = require('MyError');
 
 const sysErr = new Error('system failure');
 
