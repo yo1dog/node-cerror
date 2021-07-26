@@ -95,12 +95,24 @@ CError.chain(cause, new Error(message))
 
 ## `CError.prototype.getCause()`
 
-Returns the cause of the given error (the next error in the chain).
+Returns the cause of this error (the next error in the chain).
 
 Equivalent to:
 ```javascript
 this[CError.causeSymbol]
 CError.getCause(this)
+```
+
+-----
+
+## `CError.prototype.getUnchainedStack()`
+
+Returns the original stack of this error before it was chained.
+
+Equivalent to:
+```javascript
+this[CError.origStackSymbol]
+CError.getUnchainedStack(this)
 ```
 
 -----
@@ -130,6 +142,21 @@ Equivalent to:
 ```javascript
 err[CError.causeSymbol]
 CError.getChain(err)[1]
+```
+
+-----
+
+## `CError.getUnchainedStack(err)`
+
+ param | type  | description
+-------|-------|-------------
+`err`  | Error | Error in chain.
+
+Returns the original stack of the given error before it was chained.
+
+Equivalent to:
+```javascript
+err[CError.origStackSymbol]
 ```
 
 -----
@@ -258,4 +285,4 @@ Symbol for accessing the cause of an error.
 
 ## `CError.origStackSymbol`
 
-Symbol for accessing the original stack of an error.
+Symbol for accessing the original stack of an error before it was chained.

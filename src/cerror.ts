@@ -6,7 +6,13 @@ export const causeSymbol = Symbol('cause');
 export const origStackSymbol = Symbol('origStack');
 
 export class CError<T = unknown> extends Error implements IChained {
-  readonly [causeSymbol]: T;
+  /** Symbol for accessing the cause of an error. */
+  public static readonly causeSymbol: typeof causeSymbol = causeSymbol;
+  /** Symbol for accessing the original stack of an error before it was chained. */
+  public static readonly origStackSymbol: typeof origStackSymbol = origStackSymbol;
+  
+  public readonly [causeSymbol]: T;
+  public readonly [origStackSymbol]: string | undefined;
   
   /**
    * Creates an error with a cause.
@@ -21,12 +27,21 @@ export class CError<T = unknown> extends Error implements IChained {
   }
   
   /**
-   * Returns the cause of the given error (the next error in the chain).
+   * Returns the cause of this error (the next error in the chain).
    * 
    * Equivalent to `this[CError.causeSymbol]` or `CError.getCause(this)`
    */
   public getCause() {
     return this[causeSymbol];
+  }
+  
+  /**
+   * Returns the original stack of this error before it was chained.
+   * 
+   * Equivalent to `this[CError.origStackSymbol]` or `CError.getUnchainedStack(this)`
+   */
+  public getUnchainedStack() {
+    return this[origStackSymbol];
   }
   
   /**
@@ -75,7 +90,7 @@ export class CError<T = unknown> extends Error implements IChained {
   /**
    * Returns the cause of the given error (the next error in the chain).
    * 
-   * Equivalent to `err[causeSymbol]` or `CError.getChain(err)[1]`
+   * Equivalent to `err[CError.causeSymbol]` or `CError.getChain(err)[1]`
    */
   static getCause<C>(err: IChained<C>): C;
   static getCause(err: unknown): unknown | undefined;
@@ -85,6 +100,21 @@ export class CError<T = unknown> extends Error implements IChained {
     }
     
     return err[causeSymbol];
+  }
+  
+  /**
+   * Returns the original stack of the given error before it was chained.
+   * 
+   * Equivalent to `err[CError.origStackSymbol]`
+   */
+  static getUnchainedStack(err: unknown): string | undefined {
+    if (
+      typeof err === 'object' &&
+      err &&
+      origStackSymbol in err
+    ) {
+      return (err as {[origStackSymbol]: string | undefined})[origStackSymbol];
+    }
   }
   
   /**
