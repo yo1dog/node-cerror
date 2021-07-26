@@ -108,13 +108,11 @@ export class CError<T = unknown> extends Error implements IChained {
    * Equivalent to `err[CError.origStackSymbol]`
    */
   static getUnchainedStack(err: unknown): string | undefined {
-    if (
-      typeof err === 'object' &&
-      err &&
-      origStackSymbol in err
-    ) {
-      return (err as {[origStackSymbol]: string | undefined})[origStackSymbol];
+    if (!canHoldCause(err)) {
+      return;
     }
+    
+    return err[origStackSymbol];
   }
   
   /**
@@ -294,6 +292,7 @@ function canHoldCause<T>(val: T) : val is TChain<unknown, T> {
 export type TChain<C,R> = R & IChained<C>;
 export interface IChained<C = unknown> {
   readonly [causeSymbol]: C;
+  readonly [origStackSymbol]: string | undefined;
 }
 
 export default CError;
