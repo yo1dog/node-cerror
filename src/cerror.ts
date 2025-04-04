@@ -11,6 +11,7 @@ export class CError<T = unknown> extends Error implements IChained {
   /** Symbol for accessing the original stack of an error before it was chained. */
   public static readonly origStackSymbol: typeof origStackSymbol = origStackSymbol;
   
+  // @ts-ignore causeSymbol is assigned deeply in constructor
   public readonly [causeSymbol]: T;
   public readonly [origStackSymbol]: string | undefined;
   

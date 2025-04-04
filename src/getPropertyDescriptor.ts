@@ -1,5 +1,5 @@
 export function getPropertyDescriptor(target: object, propertyKey: PropertyKey) {
-  let curTarget = target;
+  let curTarget: object | null = target;
   do {
     const desc = Reflect.getOwnPropertyDescriptor(curTarget, propertyKey);
     if (desc) {
