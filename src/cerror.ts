@@ -294,5 +294,3 @@ export interface IChained<C = unknown> {
   readonly [causeSymbol]: C;
   readonly [origStackSymbol]: string | undefined;
 }
-
-export default CError;
