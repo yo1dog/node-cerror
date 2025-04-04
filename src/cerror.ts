@@ -67,7 +67,7 @@ export class CError<T = unknown> extends Error implements IChained {
       const result = errs[i];
       
       if (!CError.isChainable(result)) {
-        throw new Error(`Primitive given in middle of chain at index ${i}: ${inspect(result)}`);
+        throw new Error(`Non-chainable value in middle of chain at index ${i}: ${inspect(result)}`);
       }
       
       linkErrors(cause, result);
@@ -85,7 +85,7 @@ export class CError<T = unknown> extends Error implements IChained {
    * Returns if the given value can store a cause and be at the end or middle of a chain. 
    */
   public static isChainable(val: unknown): val is object {
-    return val !== null && (typeof val === 'object' || typeof val === 'function');
+    return Object.isExtensible(val);
   }
   
   /**
@@ -230,7 +230,7 @@ export class CError<T = unknown> extends Error implements IChained {
 
 function linkErrors<C, R>(cause: C, result: R): TChain<C, R> {
   if (!CError.isChainable(result)) {
-    throw new Error(`result can not be a primitive: ${inspect(result)}`);
+    throw new Error(`result is not chainable: ${inspect(result)}`);
   }
   
   // set the cause
