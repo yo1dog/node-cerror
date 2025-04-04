@@ -1,6 +1,4 @@
-import {inspect}               from 'util';
-import {getInfoString}         from './getInfoString';
-import {getPropertyDescriptor} from './getPropertyDescriptor';
+import {inspect} from 'node:util';
 
 export const causeSymbol = Symbol('cause');
 export const origStackSymbol = Symbol('origStack');
@@ -11,7 +9,7 @@ export class CError<T = unknown> extends Error implements IChained {
   /** Symbol for accessing the original stack of an error before it was chained. */
   public static readonly origStackSymbol: typeof origStackSymbol = origStackSymbol;
   
-  // @ts-ignore causeSymbol is assigned deeply in constructor
+  // @ts-expect-error causeSymbol is assigned deeply in constructor
   public readonly [causeSymbol]: T;
   public readonly [origStackSymbol]: string | undefined;
   
@@ -94,8 +92,8 @@ export class CError<T = unknown> extends Error implements IChained {
    * Equivalent to `err[CError.causeSymbol]` or `CError.getChain(err)[1]`
    */
   static getCause<C>(err: IChained<C>): C;
-  static getCause(err: unknown): unknown | undefined;
-  static getCause(err: unknown): unknown | undefined {
+  static getCause(err: unknown): unknown;
+  static getCause(err: unknown): unknown {
     if (!canHoldCause(err)) {
       return;
     }
@@ -151,7 +149,8 @@ export class CError<T = unknown> extends Error implements IChained {
   static findInChain(err: unknown, callback: (err:unknown, depth:number) => boolean) {
     let depth = 0;
     for (const curErr of CError.getChainIterator(err, true)) {
-      if (callback(curErr, depth)) { // eslint-disable-line callback-return
+      // eslint-disable-next-line n/callback-return
+      if (callback(curErr, depth)) {
         return curErr;
       }
       ++depth;
@@ -236,11 +235,6 @@ function linkErrors<C, R>(cause: C, result: R): TChain<C, R> {
   // set the cause
   Object.defineProperty(result, causeSymbol, {enumerable: false, value: cause});
   
-  // check if the error has already been modified
-  if (origStackSymbol in result) {
-    return result as TChain<C, R>;
-  }
-  
   // copy the stack
   // the stack may be a getter so we shouldn't simply copy the value
   // instead lets copy the property description
@@ -287,6 +281,33 @@ function canHoldCause<T>(val: T) : val is TChain<unknown, T> {
     val &&
     causeSymbol in val
   );
+}
+
+function getInfoString(val: unknown) {
+  const type = typeof val;
+  
+  const constructorName = (
+    type !== 'undefined' &&
+    val !== null &&
+    (val as object).constructor?.name
+  ) || null;
+  
+  const valStr = inspect(val, {getters: false});
+  
+  return `(type: ${type}${constructorName? `, constructor: ${constructorName}` : ''}) ${valStr}`;
+}
+
+function getPropertyDescriptor(target: object, propertyKey: PropertyKey) {
+  let curTarget: object | null = target;
+  do {
+    const desc = Reflect.getOwnPropertyDescriptor(curTarget, propertyKey);
+    if (desc) {
+      return desc;
+    }
+    
+    curTarget = Reflect.getPrototypeOf(curTarget);
+  }
+  while (curTarget);
 }
 
 export type TChain<C,R> = R & IChained<C>;
