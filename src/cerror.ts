@@ -248,7 +248,6 @@ function linkErrors<C, R>(cause: C, result: R): TChain<C, R> {
   Object.defineProperty(result, origStackSymbol, stackPropDesc);
   
   // create a getter for the stack
-  (result as any).stack = null;
   Object.defineProperty(result, 'stack', {
     get: function get() {
       const cause = this[causeSymbol];
